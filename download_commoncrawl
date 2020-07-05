@@ -1,2 +1,7 @@
-gdown https://drive.google.com/uc?id=1EA5V0oetDCOke7afsktL_JDQ-ETtNOvx
-tar xf openwebtext.tar.xz 
+
+# train fasttext if not already trained
+if [ ! -f fasttext_filter.bin ]; then
+    gdown https://drive.google.com/uc?id=1EA5V0oetDCOke7afsktL_JDQ-ETtNOvx
+    tar xf openwebtext.tar.xz 
+    python train_fasttext.py
+fi
