@@ -1,0 +1,2 @@
+rm subset*
+rm -rf cc_data*
