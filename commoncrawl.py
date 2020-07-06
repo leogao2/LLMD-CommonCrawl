@@ -35,15 +35,8 @@ def dl_wet(fh, wet_url):
             yield content
 
 
-def get_cc_docs(resume_file=None):
-    skip = 0
-    if resume_file and os.path.exists(resume_file):
-        skip = int(open(resume_file).read().strip())
-
+def get_cc_docs(skip=0):
     wet_urls = list(urls())[skip:]
-    for i, wet_url in enumerate(wet_urls):
-        if resume_file:
-            with open(resume_file, 'w') as fh:
-                fh.write(i)
-
-        yield from dl_wet(None, "https://commoncrawl.s3.amazonaws.com/" + wet_url)
+    for i, wet_url in enumerate(tqdm(list(wet_urls))):
+        for doc in dl_wet(None, "https://commoncrawl.s3.amazonaws.com/" + wet_url):
+            yield (doc, i)
