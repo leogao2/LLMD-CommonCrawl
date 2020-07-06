@@ -58,7 +58,7 @@ ratio = None
 archive = Archive(OUTPUT_DIR)
 lastchunknum = 0
 
-resume_file = 'resume.dat'
+resume_file = f'resume_{sys.argv[1]}.dat'
 
 skip = 0
 if resume_file and os.path.exists(resume_file):
@@ -73,7 +73,7 @@ def get_cc_and_score(index_loc, pool, dl_pool, skip):
     return pool.imap(fn, get_cc_docs(index_loc, dl_pool, skip))
 
 if __name__ == '__main__':
-    pool = mp.Pool(8)
+    pool = mp.Pool(4)
     dl_pool = None
     for doc, chunknum, document_score in get_cc_and_score(sys.argv[1], pool, dl_pool, skip):
         if lastchunknum > chunknum:

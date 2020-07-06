@@ -1,0 +1,25 @@
+echo https://commoncrawl.s3.amazonaws.com/crawl-data/CC-MAIN-2018-39/wet.paths.gz >> subset1
+echo https://commoncrawl.s3.amazonaws.com/crawl-data/CC-MAIN-2018-43/wet.paths.gz >> subset2
+echo https://commoncrawl.s3.amazonaws.com/crawl-data/CC-MAIN-2018-47/wet.paths.gz >> subset3
+echo https://commoncrawl.s3.amazonaws.com/crawl-data/CC-MAIN-2018-51/wet.paths.gz >> subset4
+echo https://commoncrawl.s3.amazonaws.com/crawl-data/CC-MAIN-2019-04/wet.paths.gz >> subset5
+echo https://commoncrawl.s3.amazonaws.com/crawl-data/CC-MAIN-2019-09/wet.paths.gz >> subset6
+echo https://commoncrawl.s3.amazonaws.com/crawl-data/CC-MAIN-2019-13/wet.paths.gz >> subset7
+echo https://commoncrawl.s3.amazonaws.com/crawl-data/CC-MAIN-2019-18/wet.paths.gz >> subset8
+echo https://commoncrawl.s3.amazonaws.com/crawl-data/CC-MAIN-2019-22/wet.paths.gz >> subset9
+echo https://commoncrawl.s3.amazonaws.com/crawl-data/CC-MAIN-2019-26/wet.paths.gz >> subset10
+echo https://commoncrawl.s3.amazonaws.com/crawl-data/CC-MAIN-2019-30/wet.paths.gz >> subset11
+echo https://commoncrawl.s3.amazonaws.com/crawl-data/CC-MAIN-2019-35/wet.paths.gz >> subset12
+echo https://commoncrawl.s3.amazonaws.com/crawl-data/CC-MAIN-2019-39/wet.paths.gz >> subset13
+echo https://commoncrawl.s3.amazonaws.com/crawl-data/CC-MAIN-2019-43/wet.paths.gz >> subset14
+echo https://commoncrawl.s3.amazonaws.com/crawl-data/CC-MAIN-2019-47/wet.paths.gz >> subset15
+echo https://commoncrawl.s3.amazonaws.com/crawl-data/CC-MAIN-2019-51/wet.paths.gz >> subset16
+echo https://commoncrawl.s3.amazonaws.com/crawl-data/CC-MAIN-2020-05/wet.paths.gz >> subset17
+echo https://commoncrawl.s3.amazonaws.com/crawl-data/CC-MAIN-2020-10/wet.paths.gz >> subset18
+echo https://commoncrawl.s3.amazonaws.com/crawl-data/CC-MAIN-2020-16/wet.paths.gz >> subset19
+echo https://commoncrawl.s3.amazonaws.com/crawl-data/CC-MAIN-2020-24/wet.paths.gz >> subset20
+
+screen -S dl_cc_1 -d -m bash -c './download_commoncrawl subset1'
+screen -S dl_cc_2 -d -m bash -c './download_commoncrawl subset2'
+screen -S dl_cc_3 -d -m bash -c './download_commoncrawl subset3'
+screen -S dl_cc_4 -d -m bash -c './download_commoncrawl subset4'
