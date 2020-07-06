@@ -26,7 +26,7 @@ def urls():
         json.dump(ret, fh)
 
 
-def dl_wet(fh, wet_url):
+def dl_wet(wet_url):
     response = requests.get(wet_url.strip(), stream=True)
 
     for record in ArchiveIterator(response.raw, arc2warc=True):
@@ -35,8 +35,24 @@ def dl_wet(fh, wet_url):
             yield content
 
 
-def get_cc_docs(skip=0):
+def dl_wet_list(wet_url):
+    response = requests.get(wet_url.strip(), stream=True)
+    ret = []
+    for record in ArchiveIterator(response.raw, arc2warc=True):
+        if record.rec_type == 'conversion':
+            content = record.content_stream().read().decode('utf-8')
+            ret.append(content)
+    return ret
+
+
+def get_cc_docs(dl_pool=None, skip=0):
     wet_urls = list(urls())[skip:]
-    for i, wet_url in enumerate(tqdm(list(wet_urls))):
-        for doc in dl_wet(None, "https://commoncrawl.s3.amazonaws.com/" + wet_url):
-            yield (doc, i)
+    wet_urls = list(map(lambda x: "https://commoncrawl.s3.amazonaws.com/" + x, wet_urls))
+
+    if dl_pool is not None:
+        for i, docs in enumerate(tqdm(list(dl_pool.imap(dl_wet_list, wet_urls)))):
+            for doc in docs: yield (doc, i)
+    else:
+        for i, wet_url in enumerate(tqdm(list(wet_urls))):
+            for doc in dl_wet(wet_url):
+                yield (doc, i)

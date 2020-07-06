@@ -68,12 +68,13 @@ def fn(x):
     doc, chunkname = x
     return doc, chunkname, get_doc_score(doc)
 
-def get_cc_and_score(pool, skip):
-    return pool.imap(fn, get_cc_docs(skip))
+def get_cc_and_score(pool, dl_pool, skip):
+    return pool.imap(fn, get_cc_docs(dl_pool, skip))
 
 if __name__ == '__main__':
     pool = mp.Pool(8)
-    for doc, chunknum, document_score in get_cc_and_score(pool, skip):
+    dl_pool = None
+    for doc, chunknum, document_score in get_cc_and_score(pool, dl_pool, skip):
         if lastchunknum > chunknum:
             lastchunknum = chunknum
 
