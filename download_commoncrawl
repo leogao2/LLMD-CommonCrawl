@@ -6,4 +6,4 @@ if [ ! -f fasttext_filter.bin ]; then
     python train_fasttext.py
 fi
 
-python download_commoncrawl.py
+python download_commoncrawl.py $1

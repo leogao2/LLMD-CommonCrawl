@@ -5,15 +5,15 @@ import os
 import json
 from warcio.archiveiterator import ArchiveIterator
 
-def urls():
-    if os.path.exists('wet_urls.json'):
-        with open('wet_urls.json') as fh:
+def urls(index_path):
+    if os.path.exists(index_path + '_wet_urls.json'):
+        with open(index_path + '_wet_urls.json') as fh:
             yield from json.load(fh)
 
         return
 
     ret = []
-    with open('indexes.txt') as ind:
+    with open(index_path) as ind:
         for url in ind:
             response = requests.get(url.strip(), stream=True)
             
@@ -22,7 +22,7 @@ def urls():
                 ret.append(wet)
                 yield wet
     
-    with open('wet_urls.json', 'w') as fh:
+    with open(index_path + '_wet_urls.json', 'w') as fh:
         json.dump(ret, fh)
 
 
@@ -45,8 +45,8 @@ def dl_wet_list(wet_url):
     return ret
 
 
-def get_cc_docs(dl_pool=None, skip=0):
-    wet_urls = list(urls())[skip:]
+def get_cc_docs(index_loc='indexes.txt', dl_pool=None, skip=0):
+    wet_urls = list(urls(index_loc))[skip:]
     wet_urls = list(map(lambda x: "https://commoncrawl.s3.amazonaws.com/" + x, wet_urls))
 
     if dl_pool is not None:
