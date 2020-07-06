@@ -11,7 +11,7 @@ import sys
 import multiprocessing as mp
 
 
-OUTPUT_DIR = "cc_data"
+OUTPUT_DIR = "cc_data_" + sys.argv[1]
 alpha = 9
 
 os.makedirs(OUTPUT_DIR, exist_ok=True)
