@@ -34,7 +34,7 @@ class Archive:
     def commit(self):
         compression_level = 3
         cdata = zstd.compress(json.dumps(self.data).encode('UTF-8'), compression_level)
-        with open(self.out_dir + '/cc_' + str(self.i) + '.json.zstd', 'wb') as fh:
+        with open(self.out_dir + '/cc_' + str(self.i) + '.json.zst', 'wb') as fh:
             fh.write(cdata)
 
         self.i += 1
