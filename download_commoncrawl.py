@@ -76,7 +76,7 @@ if __name__ == '__main__':
     pool = mp.Pool(4)
     dl_pool = None
     for doc, chunknum, document_score in get_cc_and_score(sys.argv[1], pool, dl_pool, skip):
-        if lastchunknum > chunknum:
+        if lastchunknum < chunknum:
             lastchunknum = chunknum
 
             if chunknum % 100 == 0:
