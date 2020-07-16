@@ -5,7 +5,6 @@ import os
 import json
 from warcio.archiveiterator import ArchiveIterator
 import justext
-import ftfy
 import multiprocessing as mp
 import numpy as np
 
@@ -56,15 +55,10 @@ def process_pipeline(content):
     alpha = 9
     try:
         content = content.decode('utf-8')
+
         content = '\n\n'.join([para.text for para in justext.justext(content, justext.get_stoplist("English")) if not para.is_boilerplate])
         #content = ftfy.fix_text(content)
-        # from https://arxiv.org/pdf/2005.14165.pdf P.43
-        document_score = get_doc_score(preprocess_for_fasttext(content))
 #        print(document_score)
-        if np.random.pareto(alpha) < 1 - document_score:
-            ...
-        else:
-            return
 
     except:
         #import traceback
@@ -91,7 +85,7 @@ def get_cc_docs(warc_urls, dl_pool=None, skip=0):
     pool = mp.Pool(8)
     warc_urls = list(map(lambda x: "https://commoncrawl.s3.amazonaws.com/" + x, warc_urls))
 
-    for warc_url in list(warc_urls):
-        print(warc_url)
+    for warc_url in tqdm(list(warc_urls)):
+        #print(warc_url)
         for doc in dl_warc(pool, warc_url):
             yield doc

@@ -1,4 +1,13 @@
-python download_warc_urls.py
-shuf indexes_20200607105929_warc_urls.txt > indexes_20200607105929_warc_urls_shuffled.txt
+#python download_warc_urls.py
+
+get_seeded_random()
+{
+  seed="$1"
+  openssl enc -aes-256-ctr -pass pass:"$seed" -nosalt \
+    </dev/zero 2>/dev/null
+}
+
+shuf --random-source=<(get_seeded_random 42) indexes_20200607105929_warc_urls.txt > indexes_20200607105929_warc_urls_shuffled.txt
 mkdir warc_blocks
+
 split -a 4 -l 1000 --numeric-suffixes indexes_20200607105929_warc_urls_shuffled.txt warc_blocks/urls_
