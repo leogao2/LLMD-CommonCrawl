@@ -80,11 +80,14 @@ class RollingBloomFilter:
 
 
 sched = DownloadSchedule('download_schedule.txt')
-
-with open('cc_output_tmp.txt', 'w') as fh:
-    for seg in sched.segments():
-        print(seg)
-        urls = list(get_seg_urls(seg))
-        for doc in get_cc_docs(urls):
-            if doc.strip():
-                fh.write(doc+"\n"+ "==============================================================================================================\n")
+ar = Archive('data_output')
+fh = open('cc_warc_justext_multistop.txt', 'w')
+for seg in sched.segments():
+    print(seg)
+    urls = list(get_seg_urls(seg))
+    for doc in get_cc_docs(urls):
+        #print(doc)
+        if doc.strip():
+            ar.add_data(doc.strip())
+            fh.write(doc + "\n========================================================================\n")
+    ar.commit(archive_name="chunk_" + str(seg))

@@ -5,8 +5,11 @@ import os
 import json
 from warcio.archiveiterator import ArchiveIterator
 import justext
+import newspaper
 import multiprocessing as mp
 import numpy as np
+import pycld2 as cld2
+import lxml
 
 
 def preprocess_for_fasttext(x):
@@ -54,15 +57,31 @@ def get_doc_score(doc):
 def process_pipeline(content):
     alpha = 9
     try:
+        #isReliable, textBytesFound, details = cld2.detect(content)
+        #langmap = {
+        #    'en': 'English'
+        #}
+        #lang = langmap[details[0][1]]
+        #ar = newspaper.Article('', fetch_images=False, memoize_articles=False)
+        #ar.set_html(content)
+        #ar.parse()
+#
+        #content = ar.text
         content = content.decode('utf-8')
 
-        content = '\n\n'.join([para.text for para in justext.justext(content, justext.get_stoplist("English")) if not para.is_boilerplate])
+        
+        # jusText
+        content = '\n\n'.join([para.text for para in justext.justext(content, set(filter(lambda x:x, open('multistop.txt').read().split('\n')))) if not para.is_boilerplate])
+
+        #print(content)
         #content = ftfy.fix_text(content)
 #        print(document_score)
 
+    except UnicodeDecodeError | lxml.etree.ParserError:
+        return
     except:
-        #import traceback
-        #traceback.print_exc()
+        import traceback
+        traceback.print_exc()
         #print(content)
         return
     return content
